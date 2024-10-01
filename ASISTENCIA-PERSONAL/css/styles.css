@@ -1,0 +1,11 @@
+
+.contenedor-forms{
+    max-width: 600px;
+    width: 100%;
+}
+#txtusuario{
+    padding: 15px;
+}
+#btnentrada,#btnsalida{
+    width: 50%;
+}
