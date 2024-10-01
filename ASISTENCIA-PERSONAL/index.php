@@ -8,14 +8,18 @@
     <!-- IMPORTAR CDN BOOSTRAP-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
+    <!-- llamamos a los estilos -->
     <link rel="stylesheet" href="./css/styles.css">
 
 
 </head>
 
 <body>
+
+
     <div class="container-fluid bg-warning d-flex flex-column align-items-center ">
-        <h1 class="fw-bold fs-1 mt-5">REGISTRA TU ASISTENCIA</h1>
+        <h1 class="fw-bold fs-1 mt-5 mb-5">REGISTRA TU ASISTENCIA</h1>
+        <p id="fecha" class="fs-3 fw-semibold"></p>
         <div class=" contenedor-forms container-md p-4 bg-light rounded shadow mb-5 ">
             <form action="" id="formAsistencia">
                 <div class="d-flex flex-column mb-3 align-items-center">
@@ -33,6 +37,16 @@
 
     <!-- IMPORTAR CDN BOOSTRAP JS-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    <!-- Importar jQuery desde CDN -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- cdn para usar el  alert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- llamamos al js  -->
+    <script src="./js/main.js"></script>
+
+
 </body>
 
 </html>
