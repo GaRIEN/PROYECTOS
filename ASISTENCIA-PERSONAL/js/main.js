@@ -60,46 +60,52 @@ $("#btnentrada").on("click", function (evento) {
 });
 
 $("#btnsalida").on("click", function (evento) {
-  evento.preventDefault();
+    evento.preventDefault();
+    
+    let usuario = $("#txtusuario").val();
+    console.log(usuario);
+  
+  
+    // Enviar el código de usuario al servidor para registrar la salida
+    $.ajax({
+        url: "controlador/registro-salida.php",  // Un controlador PHP separado para manejar la salida
+        type: "POST",
+        data: { txtusuario: usuario }, 
+        success: function (response) {
+            console.log(response);
 
-  let usuario = $("#txtusuario").val();
-  console.log(usuario);
-
-  if (usuario.trim() === "") {
-    alert("Por favor, ingrese su código de usuario.");
-    return;
-  }
-
-  // Enviar el código de usuario al servidor para verificar
-
-  $.ajax({
-    url: "controlador/registro-salida.php",
-    type: "POST", //METODO POST que es enviar a bd
-    data: { txtusuario: usuario }, // Envío del valor de usuario
-    success: function (response) {
-      console.log(response);
-      // Mostrar notificación según la respuesta
-      if (response.trim() === "success") {
-        // Usamos trim() para eliminar espacios en blanco
-        Swal.fire({
-          title: "CORRECTO",
-          text: "se registro ecitosamente el ingreso",
-          icon: "success",
-        });
-      } else if (response.trim() === "doble") {
-        Swal.fire({
-          title: "ERROR",
-          text: "Ya registro asistencia, solo se puede registrar una vez al dia",
-          icon: "error",
-        });
-      } else if (response.trim() === "error_insertar") {
-        Swal.fire({
-          title: "ERROR",
-          text: "El usuario no existe",
-          icon: "error",
-        });
-      }
-      $("#txtusuario").val("");
-    },
-  });
+            if (response.trim() === "success") {
+                Swal.fire({
+                    title: "CORRECTO",
+                    text: "Se registró exitosamente la salida",
+                    icon: "success",
+                });
+            } else if (response.trim() === "nohay") {
+                Swal.fire({
+                    title: "ERROR",
+                    text: "No tienes una entrada registrada o ya has registrado la salida.",
+                    icon: "error",
+                });
+            } else if (response.trim() === "error") {
+                Swal.fire({
+                    title: "ERROR",
+                    text: "Error al registrar la salida.",
+                    icon: "error",
+                });
+            } else if(response.trim()=== "usarionoexiste"){
+                Swal.fire({
+                    title: "ERROR",
+                    text: "El usuario no existe",
+                    icon: "error",
+                });
+            }
+            else if(response.trim()=== "noenviousuario"){
+                Swal.fire({
+                    title: "ERROR",
+                    text: "Por favor ingrese el codigo del usuario",
+                    icon: "error",
+                });
+            }
+        },
+    });
 });
