@@ -15,41 +15,91 @@ $(document).ready(function () {
 });
 
 $("#btnentrada").on("click", function (evento) {
-    evento.preventDefault();
-    
-    let usuario = $("#txtusuario").val();
-    console.log(usuario);
-  
-    if (usuario.trim() === "") {
-      alert("Por favor, ingrese su código de usuario.");
-      return;
-    }
-  
-    // Enviar el código de usuario al servidor para verificar
+  evento.preventDefault();
 
-    $.ajax({
-        url: "controlador/registrar-asistencia.php", 
-        type: "POST", //METODO POST que es enviar a bd
-        data: { txtusuario: usuario }, // Envío del valor de usuario
-        success: function (response) {
-          console.log(response);
-          // Mostrar notificación según la respuesta
-          if (response.trim() === "success") {
-            // Usamos trim() para eliminar espacios en blanco
-            Swal.fire({
-              title: "CORRECTO",
-              text: "se registro ecitosamente el ingreso",
-              icon: "success",
-            });
-          } else {
-            Swal.fire({
-              title: "ERROR",
-              text: "El usuario no existe",
-              icon: "error",
-            });
-          }
-        },
-      });
+  let usuario = $("#txtusuario").val();
+  console.log(usuario);
+
+  if (usuario.trim() === "") {
+    alert("Por favor, ingrese su código de usuario.");
+    return;
+  }
+
+  // Enviar el código de usuario al servidor para verificar
+
+  $.ajax({
+    url: "controlador/registrar-asistencia.php",
+    type: "POST", //METODO POST que es enviar a bd
+    data: { txtusuario: usuario }, // Envío del valor de usuario
+    success: function (response) {
+      console.log(response);
+      // Mostrar notificación según la respuesta
+      if (response.trim() === "success") {
+        // Usamos trim() para eliminar espacios en blanco
+        Swal.fire({
+          title: "CORRECTO",
+          text: "se registro ecitosamente el ingreso",
+          icon: "success",
+        });
+      } else if (response.trim() === "doble") {
+        Swal.fire({
+          title: "ERROR",
+          text: "Ya registro asistencia, solo se puede registrar una vez al dia",
+          icon: "error",
+        });
+      } else if (response.trim() === "error_insertar") {
+        Swal.fire({
+          title: "ERROR",
+          text: "El usuario no existe",
+          icon: "error",
+        });
+      }
+      $("#txtusuario").val("");
+    },
+  });
 });
 
-  
+$("#btnsalida").on("click", function (evento) {
+  evento.preventDefault();
+
+  let usuario = $("#txtusuario").val();
+  console.log(usuario);
+
+  if (usuario.trim() === "") {
+    alert("Por favor, ingrese su código de usuario.");
+    return;
+  }
+
+  // Enviar el código de usuario al servidor para verificar
+
+  $.ajax({
+    url: "controlador/registro-salida.php",
+    type: "POST", //METODO POST que es enviar a bd
+    data: { txtusuario: usuario }, // Envío del valor de usuario
+    success: function (response) {
+      console.log(response);
+      // Mostrar notificación según la respuesta
+      if (response.trim() === "success") {
+        // Usamos trim() para eliminar espacios en blanco
+        Swal.fire({
+          title: "CORRECTO",
+          text: "se registro ecitosamente el ingreso",
+          icon: "success",
+        });
+      } else if (response.trim() === "doble") {
+        Swal.fire({
+          title: "ERROR",
+          text: "Ya registro asistencia, solo se puede registrar una vez al dia",
+          icon: "error",
+        });
+      } else if (response.trim() === "error_insertar") {
+        Swal.fire({
+          title: "ERROR",
+          text: "El usuario no existe",
+          icon: "error",
+        });
+      }
+      $("#txtusuario").val("");
+    },
+  });
+});
