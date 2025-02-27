@@ -1,23 +1,16 @@
-import logo from './logo.svg';
 import './App.css';
+import { CantidadTodo } from './Componentes/Cantidad-todo';
+import { Buscar } from './Componentes/Buscar';
+import { ListaActividades } from './Componentes/ListaActividades';
+import { BotonAnadir } from './Componentes/BotonAnadir';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <CantidadTodo/>
+      <Buscar/>
+      <ListaActividades/>
+      <BotonAnadir/>
     </div>
   );
 }
