@@ -1,12 +1,12 @@
-<?php include("sitio-web/template/Cabecera.php");?>
+<?php include("template/Cabecera.php");?>
 
-<div id="carouselExample" class="carousel slide">
-    <div class="carousel-inner">
+<div id="carouselExample" class="carousel ">
+    <div class="carousel-inner slide vh-100">
         <div class="carousel-item active">
-            <img src="..." class="d-block w-100" alt="...">
+            <img src="./imagenes/inicio/paraslider.webp" class="d-block w-100 object-fit-cover vh-100" alt="...">
         </div>
         <div class="carousel-item">
-            <img src="..." class="d-block w-100" alt="...">
+            <img src="..." class="d-block w-100 " alt="...">
         </div>
         <div class="carousel-item">
             <img src="..." class="d-block w-100" alt="...">
@@ -23,4 +23,4 @@
 </div>
 
 
-<?php include("sitio-web/template/Pie.php"); ?>
+<?php include("template/pie.php"); ?>
