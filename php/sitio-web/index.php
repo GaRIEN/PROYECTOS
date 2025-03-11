@@ -168,6 +168,43 @@ $clientes = [
     </div>
 </section>
 
+<section>
+    <div>
+        <h2>CONTACTENOS</h2>
+        <div>
+            <div>
+                <p>Estamos comprometidos en ofrecerte un servicio de excelencia. Déjanos tus consultas o comentarios, y nuestro equipo te responderá con la mayor prontitud. Tu satisfacción es nuestra prioridad.
+
+                </p>
+            </div>
+            <div>
+                <form action="">
+                    <div>
+                        <label for="name">Apellidos y Nombres</label>
+                        <input type="text" name="name">
+                        <label for="dni">DNI</label>
+                        <input type="number" name="dni">
+                        <label for="cel">Numero de Celular</label>
+                        <input type="number" name="cel">
+                        <label for="gmail">Correo electronico</label>
+                        <input type="email" name="gmail">
+                        <label for="sede">Sede</label>
+                        <select name="sede" id="">
+                            <option value="""></option>
+                            <option value=" Huancayo">Huancayo</option>
+                            <option value="Oxapampa">Oxapampa</option>
+                        </select>
+                        <label for="mensaje">Mensaje</label>
+                        <textarea name="mensaje" id=""></textarea>
+
+                    </div>
+                    <button type="submit"> Enviar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
 </div>
 
 
