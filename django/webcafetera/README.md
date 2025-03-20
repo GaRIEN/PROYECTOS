@@ -34,6 +34,8 @@ La página está desarrollada en HTML, CSS y Django, con un panel de administrac
     🧑 Usuario: garien
     🔑 Contraseña: 1563
 
+hola
+
 
 📬 Contacto
     Si tienes dudas o sugerencias, puedes contactarme en:
