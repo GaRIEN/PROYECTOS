@@ -1,4 +1,7 @@
 # Web Cafetera
+![](http://imgfz.com/i/1bXAKcv.png) 
+![](http://imgfz.com/i/jEz2Zyl.png) 
+
 
 **   Esta es una página web desarrollada para una cafetera, con secciones como:**
 
