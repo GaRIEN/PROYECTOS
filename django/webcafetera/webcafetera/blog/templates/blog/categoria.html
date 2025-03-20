@@ -1,0 +1,48 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block content %}
+
+
+{% for cp in curCategoria.get_posts.all %}
+<section class="page-section cta">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-9 mx-auto">
+                <div class="cta-innerv text-center rounded">
+                    <h2 class="section-heading mb-5">
+                        <!--  para mortar fechas-->
+                        <span class="section-heading-upper">{{cp.publicado | date:'SHORT_DATE_FORMAT'}}</span>
+                        <span class="section-heading-lower">{{cp.title}}</span>
+                    </h2>
+
+                    {% if cp.image %}
+                    <p class="mb-0">
+                        <img class="mx-auto d-flex rounded img-fluid mb-3 mb-lg-0" src="{{cp.image.url}}" alt="" />
+                    </p>
+                    {% endif %}
+                    <p class="mb-0 mbt">
+                        <!--para saltos de linea-->
+                        {{cp.content|linebreaks}}
+                    </p>
+                    <p class="mb-0 mbt">
+                        <span class="section-heading-under">Publicado por <em><b>{{cp.autor}}</b></em> en
+                            <em>
+                                {% for Categoria in cp.categoria.all %}
+                                     <a href="{% url 'blog:categoria' categoria_id=Categoria.id %}"
+                                    class="link">{{Categoria.name}}</a>
+                                    {% if not forloop.last %}
+                                    ,
+                                    {% endif %}
+
+                                {% endfor %}
+                            </em>
+                        </span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endfor %}
+{% endblock content %}
