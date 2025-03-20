@@ -1,0 +1,411 @@
+{% extends "core/base.html" %} 
+{% load static %} 
+{% block title %}Nuevo Participante {% endblock title %} 
+{% block contenido %}
+<div class="main-content d-flex flex-column py-0 mb-md-5">
+  <div
+    class="formulario d-flex flex-column gap-4 mt-4 align-self-center mx-3 mb-md-0 mb-5"
+  >
+    {% if mensaje_error %}
+    <p style="color: red">{{ mensaje_error }}</p>
+    {% endif %}
+    <div>
+      <form
+        action="#"
+        id="formAgregarParticpante"
+        class="shadow px-3 py-3 rounded"
+        method="POST"
+      >
+        {% csrf_token %}
+        <div class="d-flex gap-3 flex-column">
+          <div class="col-12">
+            <span class="fs-2 fw-semibold d-md-block d-none"
+              >Registro de datos del Participante</span
+            >
+            <span class="fs-5 fw-semibold d-md-none d-block text-center"
+              >Registro de datos del Participante</span
+            >
+            <hr />
+          </div>
+          <!--formulario de ingreso datos-->
+          <div class="row g-3 px-3">
+            <!-- Aviso de campos obligatorios  -->
+            <div class="d-flex">
+              <span class="text-danger ms-2">* Campos obligatorios</span>
+            </div>
+            <span class="fw-bold fs-6">Datos generales del Particpante</span>
+
+            <!--TIPO DE PARTICIPANTE (experto o participante)-->
+            <div class="col-md-3">
+              <div class="form-floating">
+                <select
+                  class="form-select"
+                  id="cboTipoParticipacion"
+                  name="cboTipoParticipacion"
+                  required
+                >
+                  <option selected></option>
+                  {% for value, display in tipo_participante_choices %}
+                  <option value="{{ value }}">{{ display }}</option>
+                  {% endfor %}
+                </select>
+                <label for="cboTipoParticipacion"
+                  >Participante<span class="text-danger ms-2">*</span></label
+                >
+              </div>
+            </div>
+            <!------   ----------------------------- -->
+            <!--Procedencia (externo o interno)-->
+            <div class="col-md-3">
+              <div class="form-floating">
+                <select
+                  class="form-select"
+                  id="cboTipoProcedencia"
+                  name="cboTipoProcedencia"
+                  required
+                >
+                  <option selected></option>
+                  {% for value, display in procedencia_choices %}
+                  <option value="{{ value }}">{{ display }}</option>
+                  {% endfor %}
+                </select>
+                <label for="cboTipoProcedencia"
+                  >Procedencia<span class="text-danger ms-2">*</span></label
+                >
+              </div>
+            </div>
+            <!------   ----------------------------- -->
+            <!--NOMBRES-->
+            <div class="col-md-3">
+              <div class="form-floating">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="txtNombreParticpante"
+                  name="txtNombreParticpante"
+                  required
+                  maxlength="150"
+                  oninput="convertToUppercase(this)"
+                />
+                <label for="txtNombreParticpante"
+                  >Nombres<span class="text-danger ms-2">*</span></label
+                >
+              </div>
+            </div>
+            <!--APELLIDO PATERNO-->
+            <div class="col-md-3">
+              <div class="form-floating">
+                <input type="hidden" id="txtidApellidoPaterno" />
+                <input
+                  type="text"
+                  class="form-control"
+                  id="txtApellidoPaterno"
+                  name="txtApellidoPaterno"
+                  required
+                  maxlength="150"
+                  oninput="convertToUppercase(this)"
+                />
+                <label for="txtApellidoPaterno"
+                  >Apellido Paterno<span class="text-danger ms-2"
+                    >*</span
+                  ></label
+                >
+              </div>
+            </div>
+            <!--APELLIDO MATERNO-->
+            <div class="col-md-3">
+              <div class="form-floating">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="txtApellidoMaterno"
+                  name="txtApellidoMaterno"
+                  required
+                  maxlength="150"
+                  oninput="convertToUppercase(this)"
+                />
+                <label for="txtApellidoMaterno"
+                  >Apellido Materno<span class="text-danger ms-2"
+                    >*</span
+                  ></label
+                >
+              </div>
+            </div>
+            <!--EMAIL-->
+            <div class="col-md-3">
+              <div class="form-floating">
+                <input
+                  type="email"
+                  class="form-control"
+                  id="txtCorreo"
+                  name="txtCorreo"
+                  maxlength="150"
+                />
+                <label for="txtCorreo">Correo Electronico</label>
+              </div>
+            </div>
+            <!------   ----------------------------- -->
+
+            <!--TIPO DOCUMENTO-->
+            <div class="col-md-3">
+              <div class="form-floating">
+                <select
+                  class="form-select"
+                  id="cboTipoDocumento"
+                  name="cboTipoDocumento"
+                  required
+                >
+                  <option selected></option>
+                  {% for td in tipoDocumento %}
+                  <option value="{{td.id}}">{{td.Tipo_documento}}</option>
+                  {% endfor %}
+                </select>
+                <label for="cboTipoDocumento"
+                  >Tipo de documento<span class="text-danger ms-2"
+                    >*</span
+                  ></label
+                >
+              </div>
+            </div>
+            <!------   ----------------------------- -->
+            <!--DOCUMENTO -->
+            <div class="col-md-3">
+              <div class="form-floating">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="txtDocumento"
+                  name="txtDocumento"
+                  required
+                  maxlength="30"
+                  title="El DNI debe tener 8 dígitos numéricos"
+                />
+                <label for="txtDocumento"
+                  >Número de documento<span class="text-danger ms-2"
+                    >*</span
+                  ></label
+                >
+              </div>
+            </div>
+
+            <!------   ----------------------------- -->
+            <!--TELEFONO -->
+            <div class="col-md-3">
+              <div class="form-floating">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="txtTelefono"
+                  name="txtTelefono"
+                  maxlength="15"
+                />
+                <label for="txtTelefono">Telefono</label>
+              </div>
+            </div>
+            <!--FORMACION ACADEMICA-->
+            <div class="col-md-3">
+              <div class="form-floating">
+                <select
+                  class="form-select"
+                  id="cboTiformacionacademica"
+                  name="cboTiformacionacademica"
+                  
+                >
+                  <option selected></option>
+
+                  {% for fa in formacionacademica %}
+                  <option value="{{fa.id}}">
+                    {{fa.nombre_formacionacademica}}
+                  </option>
+                  {% endfor %}
+                </select>
+                <label for="cboTiformacionacademica">Formacion Académica</label>
+              </div>
+            </div>
+            <!------   ----------------------------- -->
+          </div>
+          <hr />
+          <!--formulario de ingreso datos DOMICILIO DEL PARTICIPANTE-->
+          <div class="row g-3 px-3">
+            <span class="fw-bold fs-6">Datos domicilio del Participante</span>
+            <!------   ----------------------------- -->
+            <!--PAIS-->
+            <div class="col-md-3">
+              <div class="form-floating">
+                <select
+                  class="form-select"
+                  id="cboPais"
+                  name="cboPais"
+                  required
+                >
+                  <option selected></option>
+                  {% for P in pais %}
+                  <option value="{{P.id}}">{{P.cpais}}</option>
+                  {% endfor %}
+                </select>
+                <label for="cboPais"
+                  >Pais<span class="text-danger ms-2">*</span></label
+                >
+              </div>
+            </div>
+
+            <!--CIUDAD-->
+            <div class="col-md-3 d-none" id="inputciudad">
+              <div class="form-floating">
+                <input type="hidden" id="txtidCiudad" />
+                <input
+                  type="text"
+                  class="form-control"
+                  id="txtCiudad"
+                  name="txtCiudad"
+                  maxlength="150"
+                  oninput="convertToUppercase(this)"
+                />
+                <label for="txtCiudad">Ciudad</label>
+              </div>
+            </div>
+
+            <!--DEPARTAMENTO-->
+            <div class="col-md-3 d-none" id="inputdepartamento">
+              <div class="form-floating">
+                <select
+                  class="form-select"
+                  id="cboDepartamento"
+                  name="cboDepartamento"
+                >
+                  <option selected></option>
+
+                  {% for dep in departamentos %}
+                  <option value="{{dep.id}}">{{dep.departamento}}</option>
+                  {% endfor %}
+                </select>
+                <label for="cboDepartamento">Departamento</label>
+              </div>
+            </div>
+            <!------   ----------------------------- -->
+            <!--PROVINCIA-->
+            <div class="col-md-3 d-none" id="inputprovincia">
+              <div class="form-floating">
+                <select
+                  class="form-select"
+                  id="cboProvincia"
+                  name="cboProvincia"
+                ></select>
+                <label for="cboProvincia">Provincia</label>
+              </div>
+            </div>
+            <!------   ----------------------------- -->
+            <!--DISTRITO-->
+            <div class="col-md-3 d-none" id="inputdistrito">
+              <div class="form-floating">
+                <select
+                  class="form-select"
+                  id="cboDistrito"
+                  name="cboDistrito"
+                ></select>
+                <label for="cboDistrito">Distrito</label>
+              </div>
+            </div>
+          </div>
+          <hr />
+          <!--formulario de ingreso datos LABORALES DEL PARTICIPANTE-->
+          <div class="row g-3 px-3">
+            <span class="fw-bold fs-6">Datos Laborales del Participante</span>
+
+            <!------   ----------------------------- -->
+            <!--INSTITUCION-->
+            <div class="col-md-3">
+              <div class="form-floating">
+                <select
+                  class="form-select"
+                  id="cdboInstitucion"
+                  name="cdboInstitucion"
+                  required
+                >
+                  <option selected></option>
+                  {% for ins in institucion %}
+                  <option value="{{ins.id}}">{{ins.cInstFinancia}}</option>
+                  {% endfor %}
+                </select>
+                <label for="cdboInstitucion"
+                  >Institucion<span class="text-danger ms-2">*</span></label
+                >
+              </div>
+            </div>
+            <!--SEDE-->
+            <div class="col-md-3">
+              <div class="form-floating">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="txtNombreSede"
+                  name="txtNombreSede"
+                  maxlength="150"
+                  oninput="convertToUppercase(this)"
+                />
+                <label for="txtNombreSede">Sede</label>
+              </div>
+            </div>
+            <!------   ----------------------------- -->
+
+            <!--DIRECCION-->
+            <div class="col-md-3">
+              <div class="form-floating">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="txtDireccionSede"
+                  name="txtDireccionSede"
+                  maxlength="150"
+                  oninput="convertToUppercase(this)"
+                />
+                <label for="txtDireccionSede">Direccion</label>
+              </div>
+            </div>
+            <!--OFICINA-->
+            <div class="col-md-3">
+              <div class="form-floating">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="txtOficinasede"
+                  name="txtOficinasede"
+                  maxlength="150"
+                  oninput="convertToUppercase(this)"
+                />
+                <label for="txtOficinasede">Oficina</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Botones -->
+          <div class="row g-3 px-3">
+            <hr />
+            <div class="col-12 d-flex justify-content-end mt-1">
+              <button
+                class="btn btn-lg text-white fs-6 bg-danger"
+                type="submit"
+              >
+                <i class="fas fa-save"></i> &nbsp;Guardar datos
+              </button>
+            </div>
+          </div>
+          <!------   ----------------------------- -->
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock contenido %} 
+{% block script %}
+
+<script>
+  function convertToUppercase(input) {
+    input.value = input.value.toUpperCase();
+  }
+</script>
+
+<script src="{% static 'core/js/inicializador/inicializador_ubicacion.js' %}"></script>
+<script src="{% static 'core/js/participantes/nuevoparticipante.js' %}"></script>
+
+{% endblock %}

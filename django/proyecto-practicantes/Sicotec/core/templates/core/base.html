@@ -1,0 +1,331 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}{% endblock %} | Sof - sicotec</title>
+  <!-- Bootstrap 5.3 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+  <!-- Iconos Bootstrap 5 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css" />
+
+  <!--css personalizado-->
+  <link rel="stylesheet" href="{% static 'core/css/index.css' %}" />
+
+  <!-- jquery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+  <!--SweetAlert2-->
+  <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet" />
+  <!--CSS DATA TABLE-->
+  <link rel="stylesheet" href="https://cdn.datatables.net/2.0.0/css/dataTables.bootstrap5.min.css" />
+  <link rel="stylesheet" href="https://cdn.datatables.net/2.1.0/css/dataTables.bootstrap5.css" />
+  <link rel="stylesheet" href="https://cdn.datatables.net/buttons/3.1.0/css/buttons.bootstrap5.css" />
+
+  <!--block head para agregar mas -->
+  {% block head %} {% endblock %}
+</head>
+
+<body>
+  <header>
+    <nav class="navbar navbar-expand-xl " style="background-color: #0D6EFD">
+      <div class="container-fluid">
+
+        <!--PARA EL LOGO-->
+        <a href="{% url 'home' %}" class="navbar-brand d-none d-xxl-block">
+          <img src="{% static 'core/images/logo_ipen.png' %}" class="offcanvas-title img-canvas-logo"
+            id="offcanvasScrollingLabel" alt="" />
+        </a>
+
+        <!--BOTON DE MENU-->
+        <button class="navbar-toggler text-white" type="button" data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+          aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <!--IMAGEN DE PERFIL-->
+        <div class="d-flex gap-3 align-items-center d-xl-none ">
+          <img src="{% static 'core/images/login.png' %}" alt="" class="img-login rounded-circle" />
+          <p class="mb-0 text-light fw-bold">
+            {% if user.is_authenticated %} {{ user.userprofile.nombre }}
+             {% else %} Invitado {% endif %}
+          </p>
+          <div class="dropdown me-4">
+            <button class="btn btn-primary" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown"
+              aria-expanded="false">
+              <i class="bi bi-caret-down-fill"></i>
+            </button>
+            <!-- Menú desplegable -->
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+              {% if request.user.is_staff or request.user.is_superuser %}
+              <li><a class="dropdown-item" href="#">Administrador</a></li>
+              {% endif %}              
+              <li>
+                <a class="dropdown-item" href="#" onclick="CerrarSesion()">Cerrar sesión</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <!-- ------------------ -->
+
+
+        <div class="collapse navbar-collapse d-xl-flex justify-content-xl-end " id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0 me-lg-5">
+            <!--PROYECTOS-->
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                <i class="nav-link__icon bi bi-briefcase-fill fs-5 text-white"></i>
+                <span class="nav-link__title text-white">Proyectos</span>
+              </a>
+              <ul class="dropdown-menu">
+                <li>
+                  <a id="nuevoProyecto"
+                    class=" dropdown-item link-dark link-opacity-75 link-opacity-100-hover link-offset-2 link-underline link-underline-opacity-0 "
+                    href="{% url 'nuevoproyecto'%}">
+                    <i class="nav-link__icon bi bi-plus fs-5 text-dark"></i> Añadir Proyecto
+                  </a>
+                </li>
+                <li> <a id="nuevoProyecto"
+                    class=" dropdown-item link-dark link-opacity-75 link-opacity-100-hover link-offset-2 link-underline link-underline-opacity-0 "
+                    href="{% url 'todosProyectos'%}">
+                    <i class="nav-link__icon bi bi-file-earmark-text fs-5"></i>
+                    Mostrar Proyectos
+                  </a>
+                </li>
+
+              </ul>
+            </li>
+            <!--EVENTOS-->
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                <i class=" nav-link__iconbi bi bi-calendar2-check-fill fs-5 text-white"></i>
+                <span class="nav-link__title text-white">Eventos</span>
+              </a>
+              <ul class="dropdown-menu">
+                <li>
+                  <a id="nuevoEvento"
+                    class=" dropdown-item link-dark link-opacity-75 link-opacity-100-hover link-offset-2 link-underline link-underline-opacity-0 "
+                    href="{% url 'nuevoEvento' %}">
+                    <i class="nav-link__icon bi bi-plus fs-5 text-dark"></i> Añadir
+                    Evento
+                  </a>
+                </li>
+                <li> <a id="nuevoEvento"
+                    class=" dropdown-item link-dark link-opacity-75 link-opacity-100-hover link-offset-2 link-underline link-underline-opacity-0 "
+                    href="{% url 'todosEventos' %}">
+                    <i class="nav-link__icon bi bi-file-earmark-text fs-5"></i>
+                    Mostrar Eventos
+                  </a>
+                </li>
+
+              </ul>
+            </li>
+            <!--PARTICIPANTES-->
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                <i class="nav-link__icon bi bi bi-people-fill fs-5 text-white"></i>
+                <span class="nav-link__title text-white">Participantes</span>
+              </a>
+              <ul class="dropdown-menu">
+                <li>
+                  <a id="nuevoParticipante"
+                    class=" dropdown-item link-dark link-opacity-75 link-opacity-100-hover link-offset-2 link-underline link-underline-opacity-0 "
+                    href="{% url 'nuevoParticipante' %}">
+                    <i class="nav-link__icon bi bi-plus fs-5"></i> Añadir
+                    Participantes
+                  </a>
+                </li>
+                <li> <a id="nuevoParticipante"
+                    class=" dropdown-item link-dark link-opacity-75 link-opacity-100-hover link-offset-2 link-underline link-underline-opacity-0 "
+                    href="{% url 'todosparticipantes' %}">
+                    <i class="nav-link__icon bi bi-file-earmark-text fs-5"></i>
+                    Mostrar Participantes
+                  </a>
+                </li>
+
+              </ul>
+            </li>
+
+            
+            <!--Reportes-->
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                <i class="nav-link__icon bi bi-clipboard2-data-fill fs-5 text-white"></i>
+                <span class="nav-link__title text-white">Reportes</span>
+              </a>
+              <ul class="dropdown-menu">
+                <li>
+                  <a id="RCapacitacionArea"
+                    class=" dropdown-item link-dark link-opacity-75 link-opacity-100-hover link-offset-2 link-underline link-underline-opacity-0 "
+                    href="{% url 'reportepracticipanteproyecto' %}">
+
+                    <i class="nav-link__icon bi bi-filetype-pdf fs-5"></i> Capacitacion por Area
+                  </a>
+                </li>
+                <li> <a id="RParticipantesporAño"
+                    class=" dropdown-item link-dark link-opacity-75 link-opacity-100-hover link-offset-2 link-underline link-underline-opacity-0 "
+                    href="{% url 'reporteevento' %}">
+                    <i class="nav-link__icon bi bi-filetype-pdf fs-5"></i>
+                    reporte por evento
+                  </a>
+                </li>
+              </ul>
+            </li>
+
+
+            {% if request.user.is_staff or request.user.is_superuser %}
+            <!--MANTENIMIENTO-->
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                <i class="nav-link__icon bi bi bi-wrench-adjustable fs-5 text-white"></i>
+                <span class="nav-link__title text-white">Mantenimiento</span>
+              </a>
+              <ul class="dropdown-menu">
+                <li>
+                  <a id="AgregarEntidad"
+                    class="dropdown-item link-dark link-opacity-75 link-opacity-100-hover link-offset-2 link-underline link-underline-opacity-0 fw-bold"
+                    href="{% url 'añadirnuevoentidad' %}">
+                    <i class="nav-link__icon bi bi-plus fs-5"></i> Añadir Entidad
+                  </a>
+                </li>
+                <li>
+                  <a id="AgregarInstitucion"
+                    class="dropdown-item link-dark link-opacity-75 link-opacity-100-hover link-offset-2 link-underline link-underline-opacity-0 fw-bold"
+                    href="{% url 'nuevaInstitucion' %}">
+                    <i class="nav-link__icon bi bi-plus fs-5"></i> Añadir Institución
+                  </a>
+                </li>
+                <li>
+                  <a id="Mantenimiento"
+                    class="dropdown-item link-dark link-opacity-75 link-opacity-100-hover link-offset-2 link-underline link-underline-opacity-0 fw-bold"
+                    href="{% url 'añadirnuevatematica' %}">
+                    <i class="nav-link__icon bi bi-plus fs-5"></i> Añadir Temática
+                  </a>
+                </li>
+                <li>
+                  <a id="Mantenimiento"
+                    class="dropdown-item link-dark link-opacity-75 link-opacity-100-hover link-offset-2 link-underline link-underline-opacity-0 fw-bold"
+                    href="{% url 'añadirnuevotipoapoyo' %}">
+                    <i class="nav-link__icon bi bi-plus fs-5"></i> Añadir Tipo de Apoyo
+                  </a>
+                </li>
+                <li>
+                  <a id="Mantenimiento"
+                    class="dropdown-item link-dark link-opacity-75 link-opacity-100-hover link-offset-2 link-underline link-underline-opacity-0 fw-bold"
+                    href="{% url 'añadirnuevotipoproyecto' %}">
+                    <i class="nav-link__icon bi bi-plus fs-5"></i> Añadir Tipo de Proyecto
+                  </a>
+                </li>
+                <li>
+                  <a id="Mantenimiento"
+                    class="dropdown-item link-dark link-opacity-75 link-opacity-100-hover link-offset-2 link-underline link-underline-opacity-0 fw-bold"
+                    href="{% url 'añadirnuevotipoevento' %}">
+                    <i class="nav-link__icon bi bi-plus fs-5"></i> Añadir Tipo de Evento
+                  </a>
+                </li>
+
+                <li>
+                  <a id="Usuarios"
+                    class="dropdown-item link-dark link-opacity-75 link-opacity-100-hover link-offset-2 link-underline link-underline-opacity-0 fw-bold"
+                    href="{% url 'nuevoUsuario' %}">
+                    <i class="nav-link__icon bi bi-plus fs-5"></i> Añadir Usuarios
+                  </a>
+                </li>
+              </ul>
+            </li>
+            {% endif %}
+
+
+          </ul>
+        </div>
+
+        <!--IMAGEN DE PERFIL-->
+        <div class="d-flex gap-3 align-items-center d-none d-xl-flex">
+          <img src="{% static 'core/images/login.png' %}" alt="" class="img-login rounded-circle" />
+          <p class="mb-0  text-light fw-bold">
+            {% if user.is_authenticated %}
+            {{ user.userprofile.nombre }}
+            {% else %}
+            Invitado
+            {% endif %}
+          </p>
+          <div class="dropdown">
+            <button class="btn btn-primary" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown"
+              aria-expanded="false">
+              <i class="bi bi-caret-down-fill"></i>
+            </button>
+            <!-- Menú desplegable -->
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+              {% if request.user.is_staff or request.user.is_superuser %}
+              <li><a class="dropdown-item" href="#">Administrador</a></li>
+              {% endif %}
+              <li>
+                <a class="dropdown-item" href="#" onclick="CerrarSesion()">Cerrar sesión</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+
+      </div>
+    </nav>
+
+
+
+  </header>
+  <main class="w-100 d-flex justify-content-center">
+    <div class="content main-content w-100" style="background:#EDF0F4">
+      {% block contenido %} {% endblock contenido %}
+    </div>
+  </main>
+
+  <script>
+    function CerrarSesion() {
+      localStorage.clear();
+      window.location.href = "{% url 'salir' %}";
+  }
+  </script>
+
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
+  <!-- DataTables JS -->
+  <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+
+  <!-- Datatables -->
+  <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
+
+
+  <!--para data table-->
+  <script src"https://code.jquery.com/jquery-3.7.1.js"></script>
+  <!---->
+  <script src"https://cdn.datatables.net/2.0.0/js/dataTables.js"></script>
+
+  <!-- SweetAlert -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="{% static 'core/js/notificacion-Swal.js' %}"></script>
+
+
+  {% block script %} {% endblock %}
+</body>
+
+</html>
