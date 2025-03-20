@@ -62,13 +62,27 @@ Cuenta con un **panel de administración seguro** que permite a los encargados m
 
  **Clonar el repositorio**  
 **crear entorno virtual  ubuntu server**
-	  `  python -m venv venv`
-		`source venv/bin/activate`
-	   ` pip install -r requirements.txt`
+
+```python
+ python -m venv venv
+```
+
+```python
+source venv/bin/activate
+```
+```python
+pip install -r requirements.txt
+```
 **crear entorno virtual  Windows**
-	  `  python -m venv venv`
-		`venv\Scripts\activate`
-	   ` pip install -r requirements.txt`
+```python
+ python -m venv venv
+```
+```python
+venv\Scripts\activate
+```
+```python
+pip install -r requirements.txt
+```
 
 ****Configurar la base de datos****
 Asegúrate de tener MySQL instalado y configura la conexión en el archivo settings.py:
@@ -85,9 +99,13 @@ DATABASES = {
 }
 ```
 **Aplicar migraciones y ejecutar el servidor**
-`python manage.py migrate`
 
-`python manage.py runserver`
+```python
+python manage.py migrate
+```
+```python
+python manage.py runserver
+```
 
 ### 🔑 Acceso al Panel de Administración
 	📌 URL: http://127.0.0.1:8000/admin/
