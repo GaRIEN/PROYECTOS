@@ -1,7 +1,7 @@
 import "./App.css";
 
 
-import { TituloyCantidad } from "./Componentes/Cantidad-Actividades"; 
+import { TituloyCantidad } from "./Components/Cantidad-Actividades"; 
 
 
 function App() {

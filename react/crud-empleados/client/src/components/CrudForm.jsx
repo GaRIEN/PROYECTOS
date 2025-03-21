@@ -5,11 +5,18 @@ const initiForm = {
   edad: "",
   pais: "",
   cargo: "",
-  aniosExperiencia: "",
+  aniosExperiencia: ""
 };
 
 const CrudForm = () => {
-  const [form, setForm] = useState({ initiForm });
+  const [form, setForm] = useState(initiForm);
+
+  const handleChange = (e) => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   return (
     <div className="w-full max-w-8/10">
@@ -28,7 +35,7 @@ const CrudForm = () => {
                 name="nombre"
                 placeholder="Ingresa tu nombre"
                 value={form.nombre}
-                // onChange={handleChange}
+                onChange={handleChange}
                 className="w-full mt-1 p-3 rounded-lg bg-gray-700 text-white outline-none border-2 border-transparent focus:border-blue-400 transition"
               />
             </div>
@@ -43,8 +50,8 @@ const CrudForm = () => {
                 type="text"
                 name="apellidos"
                 placeholder="Ingresa tus apellidos"
-                value={form.nombre}
-                // onChange={handleChange}
+                onChange={handleChange}
+                value={form.apellidos}
                 className="w-full mt-1 p-3 rounded-lg bg-gray-700 text-white outline-none border-2 border-transparent focus:border-blue-400 transition "
               />
             </div>
@@ -52,7 +59,6 @@ const CrudForm = () => {
               <label
                 htmlFor="edad"
                 className="text-sm font-medium text-gray-300"
-                
               >
                 Edad
               </label>
@@ -60,8 +66,8 @@ const CrudForm = () => {
                 type="number"
                 name="edad"
                 placeholder="edad"
-                value={form.nombre}
-                // onChange={handleChange}
+                onChange={handleChange}
+                value={form.edad}
                 className="w-full mt-1 p-3 rounded-lg bg-gray-700 text-white outline-none border-2 border-transparent focus:border-blue-400 transition [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
               />
             </div>
@@ -69,14 +75,13 @@ const CrudForm = () => {
               <label
                 htmlFor="pais"
                 className="text-sm font-medium text-gray-300"
-                
               >
                 Pais
               </label>
               <select
                 name="pais"
-                value={form.nombre}
-                // onChange={handleChange}
+                onChange={handleChange}
+                value={form.pais}
                 className="w-full mt-1 p-3 rounded-lg bg-gray-700 text-white outline-none border-2 border-transparent focus:border-blue-400 transition"
               >
                 <option value="" disabled>
@@ -88,18 +93,17 @@ const CrudForm = () => {
               <label
                 htmlFor="cargo"
                 className="text-sm font-medium text-gray-300"
-                
               >
                 Cargo
               </label>
               <select
-                name="pais"
-                value={form.nombre}
-                // onChange={handleChange}
+                name="cargo"
+                onChange={handleChange}
+                value={form.cargo}
                 className="w-full mt-1 p-3 rounded-lg bg-gray-700 text-white outline-none border-2 border-transparent focus:border-blue-400 transition"
               >
                 <option value="" disabled>
-                  Seleccione un país
+                  Seleccione su cargo 
                 </option>
               </select>
             </div>
@@ -107,16 +111,15 @@ const CrudForm = () => {
               <label
                 htmlFor="aniosexperiencia"
                 className="text-sm font-medium text-gray-300"
-                
               >
                 Años de Experiencia
               </label>
               <input
                 type="number"
-                name="aniosexperiencia"
+                name="aniosExperiencia"
                 placeholder="años de experiencia"
-                value={form.nombre}
-                // onChange={handleChange}
+                onChange={handleChange}
+                value={form.aniosExperiencia}
                 className="w-full mt-1 p-3 rounded-lg bg-gray-700 text-white outline-none border-2 border-transparent focus:border-blue-400 transition [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
               />
             </div>
