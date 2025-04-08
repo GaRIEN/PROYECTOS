@@ -1,15 +1,22 @@
 import { helpHttp } from "./helpHttp.js";
+//constantes
+const API_URL = "https://pokeapi.co/api/v2/pokemon?limit=20";
+const $pokemons = document.getElementById("container__card-pokemons");
+const loader = document.getElementById("loader");
+//servicios
 const api = helpHttp();
+//funciones
+const toggleLoader = (show) => {
+    loader.style.display = show ? "block" : "none";
+};
 api
-    .get("https://pokeapi.co/api/v27/pokemon?limit=160")
+    .get(API_URL)
     .then((res) => {
     if ("err" in res) {
-        console.log("hay error puerco");
-        console.log(res.status);
         console.error("Error:", res.statusText || "Unknown error");
     }
     else {
-        console.log(res.results);
+        $pokemons.innerHTML = "";
     }
 })
     .catch((err) => {
