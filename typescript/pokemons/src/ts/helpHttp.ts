@@ -1,4 +1,4 @@
-import { httpOptions, httpResponseError } from "./interface/interface";
+import { httpOptions, httpResponseError } from "./interface/httpResponseError";
 export const helpHttp = () => {
   const customFetch = async (
     endpoint: string,
@@ -58,6 +58,7 @@ export const helpHttp = () => {
     options.method = "DELETE";
     return customFetch(url, options);
   };
+
   return {
     get,
     post,

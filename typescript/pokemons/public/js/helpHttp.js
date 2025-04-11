@@ -61,5 +61,6 @@ export const helpHttp = () => {
         post,
         put,
         del,
+        customFetch,
     };
 };
