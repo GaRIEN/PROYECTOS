@@ -1,33 +1,33 @@
-import { PokemonsHttpService } from "./service/pokemonsHttp.service.js";
+import { helpHttp } from "./helpHttp.js";
+import { httpResponseError } from "./interface/httpResponseError";
+import { listPokemon } from "./interface/listPokemon";
 
 document.addEventListener("DOMContentLoaded", renderPokemons);
 
 //constantes
 const API_URL = "https://pokeapi.co/api/v2/pokemon?limit=20";
+const api = helpHttp();
 const $pokemons = document.getElementById(
   "containercardpokemons"
 )! as HTMLElement;
 const loader = document.getElementById("loader") as HTMLElement;
-const pokemonsService = new PokemonsHttpService(API_URL);
 
 //funciones
 const toggleLoader = (show: boolean): void => {
   loader.style.display = show ? "block" : "none";
 };
 
-async function renderPokemons() {
+function renderPokemons() {
   toggleLoader(true);
-  const pokemons = await pokemonsService.getAllPokemons();
-
-  if ("err" in pokemons) {
-    document.body.innerHTML = `<p>Error: ${pokemons.statusText}</p>`;
-    return;
-  }
-
-  let pokemonsHTML = "";
-
-  pokemons.results.forEach((pokemon) => {
-    pokemonsHTML += `
+  const pokemons = api
+    .get(API_URL)
+    .then((res: listPokemon | httpResponseError) => {
+      if ("err" in res) {
+        console.log("Error: ", res);
+      } else {
+        let pokemonsHTML = "";
+        res.results.forEach((pokemon) => {
+          pokemonsHTML += `
             <div class="flip-card mx-auto">
               <div class="flip__card-inner">
                 <div
@@ -66,7 +66,9 @@ async function renderPokemons() {
               </div>
             </div>
     `;
-  });
-  toggleLoader(false);
-  $pokemons.innerHTML = pokemonsHTML;
+        });
+        toggleLoader(false);
+        $pokemons.innerHTML = pokemonsHTML;
+      }
+    });
 }

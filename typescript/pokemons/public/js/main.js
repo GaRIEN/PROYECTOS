@@ -1,34 +1,26 @@
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-import { PokemonsHttpService } from "./service/pokemonsHttp.service.js";
+import { helpHttp } from "./helpHttp.js";
 document.addEventListener("DOMContentLoaded", renderPokemons);
 //constantes
 const API_URL = "https://pokeapi.co/api/v2/pokemon?limit=20";
+const api = helpHttp();
 const $pokemons = document.getElementById("containercardpokemons");
 const loader = document.getElementById("loader");
-const pokemonsService = new PokemonsHttpService(API_URL);
 //funciones
 const toggleLoader = (show) => {
     loader.style.display = show ? "block" : "none";
 };
 function renderPokemons() {
-    return __awaiter(this, void 0, void 0, function* () {
-        toggleLoader(true);
-        const pokemons = yield pokemonsService.getAllPokemons();
-        if ("err" in pokemons) {
-            document.body.innerHTML = `<p>Error: ${pokemons.statusText}</p>`;
-            return;
+    toggleLoader(true);
+    const pokemons = api
+        .get(API_URL)
+        .then((res) => {
+        if ("err" in res) {
+            console.log("Error: ", res);
         }
-        let pokemonsHTML = "";
-        pokemons.results.forEach((pokemon) => {
-            pokemonsHTML += `
+        else {
+            let pokemonsHTML = "";
+            res.results.forEach((pokemon) => {
+                pokemonsHTML += `
             <div class="flip-card mx-auto">
               <div class="flip__card-inner">
                 <div
@@ -67,8 +59,9 @@ function renderPokemons() {
               </div>
             </div>
     `;
-        });
-        toggleLoader(false);
-        $pokemons.innerHTML = pokemonsHTML;
+            });
+            toggleLoader(false);
+            $pokemons.innerHTML = pokemonsHTML;
+        }
     });
 }
