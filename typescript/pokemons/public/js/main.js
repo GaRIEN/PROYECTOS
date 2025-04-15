@@ -18,66 +18,6 @@ const loader = document.getElementById("loader");
 const toggleLoader = (show) => {
     loader.style.display = show ? "block" : "none";
 };
-// function renderPokemons() {
-//   toggleLoader(true);
-//   api.get(API_URL).then((res: listPokemon | httpResponseError) => {
-//     if ("err" in res) {
-//       console.log("Error: ", res);
-//     } else {
-//       let pokemonsHTML = "";
-//       res.results.forEach((pokemon) => {
-//         api.get(pokemon.url).then((res: any) => {
-//           if ("err" in res) {
-//             console.log("Error: ", res);
-//           } else {
-//             console.log("res", res);
-//             const types = res.types.map((type: any) => type.type.name);
-//           }
-//         });
-//         pokemonsHTML += `
-//             <div class="flip-card mx-auto">
-//               <div class="flip__card-inner">
-//                 <div
-//                   class="flip__card-front d-flex flex-column rounded shadow border-0 bg-light"
-//                 >
-//                   <img
-//                     src="./assets/img/clientegalvan.jpeg"
-//                     class="img-fluid rounded"
-//                     style="width: 100%; height: 70%"
-//                     alt="Avatar"
-//                   />
-//                   <h5 class="fs-5 fw-medium m-2">${pokemon.name}</h5>
-//                   <div class="d-flex m-2 gap-3">
-//                     <button
-//                       class="bg-danger text-white fw-bold border-0 shadow rounded my-1"
-//                       style="font-size: 0.7rem"
-//                     >
-//                       <span>habilidad</span>
-//                     </button>
-//                     <button
-//                       class="bg-danger text-white fw-bold border-0 shadow rounded my-1"
-//                       style="font-size: 0.7rem"
-//                     >
-//                       <span>habilidad</span>
-//                     </button>
-//                   </div>
-//                 </div>
-//                 <div
-//                   class="flip__card-back d-flex flex-colmn align-items-center justify-content-center rounded shadow bg-primary text-white"
-//                 >
-//                   <h1>hola reverso</h1>
-//                   <p>Architect & Engineer</p>
-//                   <p>We love that guy</p>
-//                 </div>
-//               </div>
-//             </div>
-//     `;
-//       });
-//       toggleLoader(false);
-//       $pokemons.innerHTML = pokemonsHTML;
-//     }
-//   });
-// }
 function renderPokemons() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -88,8 +28,6 @@ function renderPokemons() {
                 return;
             }
             const pokemonDetails = yield fetchAllPokemonDetails(res.results);
-            console.log("pokemons details");
-            console.log(pokemonDetails);
             const pokemonsHTML = pokemonDetails
                 .map((pokemon) => renderPokemonCard(pokemon))
                 .join("");
@@ -117,7 +55,13 @@ function fetchAllPokemonDetails(pokemons) {
     });
 }
 function renderPokemonCard(pokemon) {
-    const types = pokemon.types.map((type) => type.type.name).join(", ");
+    const AbilityButtons = pokemon.abilities
+        .map((Abilities) => `
+    <button class="bg-danger text-white fw-bold border-0 shadow rounded my-1" style="font-size: 0.7rem">
+    <span>${Abilities.ability.name}</span>
+  </button>
+    `)
+        .join("");
     return `
     <div class="flip-card mx-auto">
       <div class="flip__card-inner">
@@ -128,14 +72,9 @@ function renderPokemonCard(pokemon) {
                alt="Avatar" />
           <h5 class="fs-5 fw-medium m-2">${pokemon.name}</h5>
           <div class="d-flex m-2 gap-3">
-            ${types
-        .split(", ")
-        .map((type) => `
-              <button class="bg-danger text-white fw-bold border-0 shadow rounded my-1" style="font-size: 0.7rem">
-                <span>${type}</span>
-              </button>
-            `)
-        .join("")}
+            
+             ${AbilityButtons}
+           
           </div>
         </div>
         <div class="flip__card-back d-flex flex-column align-items-center justify-content-center rounded shadow bg-primary text-white">

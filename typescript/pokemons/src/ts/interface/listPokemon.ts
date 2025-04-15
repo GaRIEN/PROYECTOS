@@ -9,3 +9,22 @@ export interface listPokemon {
   previous: string | null;
   results: Pokemon[];
 }
+
+
+
+export interface PokemonDetails {
+  abilities: {
+    ability: Ability;
+    is_hidden: boolean;
+    slot: number;
+  }[];
+  name: string;
+  sprite: {
+    front_default: string;
+  };
+}
+
+export interface Ability {
+  name: string;
+  url: string;
+}
