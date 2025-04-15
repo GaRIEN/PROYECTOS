@@ -3,7 +3,7 @@
 }
 .flip-card {
   min-width: 270px;
-  min-height: 330px;
+  min-height: 300px;
   perspective: 1000px;
 }
 .flip__card-inner {

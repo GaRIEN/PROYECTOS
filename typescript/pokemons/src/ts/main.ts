@@ -1,16 +1,12 @@
 import { helpHttp } from "./helpHttp.js";
 import { httpResponseError } from "./interface/httpResponseError";
-import {
-  listPokemon,
-  Pokemon,
-  PokemonDetails,
-  Ability,
-} from "./interface/listPokemon";
+import { listPokemon, Pokemon, PokemonDetails } from "./interface/listPokemon";
+import { PokemonType, pokemonTypes } from "./interface/pokemonTypes.js";
 
 document.addEventListener("DOMContentLoaded", renderPokemons);
 
 //constantes
-const API_URL = "https://pokeapi.co/api/v2/pokemon?limit=20";
+const API_URL = "https://pokeapi.co/api/v2/pokemon?limit=10";
 const api = helpHttp();
 const $pokemons = document.getElementById(
   "containercardpokemons"
@@ -33,7 +29,7 @@ async function renderPokemons() {
     }
 
     const pokemonDetails = await fetchAllPokemonDetails(res.results);
-
+    console.log(pokemonDetails);
     const pokemonsHTML = pokemonDetails
       .map((pokemon) => renderPokemonCard(pokemon))
       .join("");
@@ -63,28 +59,28 @@ async function fetchAllPokemonDetails(
 }
 
 function renderPokemonCard(pokemon: PokemonDetails): string {
-  const AbilityButtons = pokemon.abilities
-    .map(
-      (Abilities) =>
-        `
-    <button class="bg-danger text-white fw-bold border-0 shadow rounded my-1" style="font-size: 0.7rem">
-    <span>${Abilities.ability.name}</span>
-  </button>
-    `
-    )
+  const types = pokemon.types
+    .map((tipe) => {
+      const { name, color } = traducirTipo(tipe.type.name);
+      return `
+      <button class="text-white fw-bold border-0 shadow rounded my-1" style="font-size: 0.7rem; background-color: ${color} !important;">
+        <span>${name}</span>
+      </button>
+    `;
+    })
     .join("");
   return `
     <div class="flip-card mx-auto">
       <div class="flip__card-inner">
         <div class="flip__card-front d-flex flex-column rounded shadow border-0 bg-light">
-          <img src="./assets/img/clientegalvan.jpeg"
+          <img src="${pokemon.sprites.other.home.front_default}"
                class="img-fluid rounded"
                style="width: 100%; height: 70%"
                alt="Avatar" />
           <h5 class="fs-5 fw-medium m-2">${pokemon.name}</h5>
           <div class="d-flex m-2 gap-3">
             
-             ${AbilityButtons}
+             ${types}
            
           </div>
         </div>
@@ -96,4 +92,8 @@ function renderPokemonCard(pokemon: PokemonDetails): string {
       </div>
     </div>
   `;
+}
+
+function traducirTipo(tipoIngles: string): PokemonType {
+  return pokemonTypes[tipoIngles] || { name: tipoIngles, color: "#A9A75A" };
 }

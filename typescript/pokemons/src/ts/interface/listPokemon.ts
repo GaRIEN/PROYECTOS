@@ -10,21 +10,21 @@ export interface listPokemon {
   results: Pokemon[];
 }
 
-
-
 export interface PokemonDetails {
-  abilities: {
-    ability: Ability;
-    is_hidden: boolean;
-    slot: number;
-  }[];
   name: string;
-  sprite: {
-    front_default: string;
+  sprites: {
+    other: {
+      home: {
+        front_default: string;
+      };
+    };
   };
+  types: {
+    type: type;
+  }[];
 }
 
-export interface Ability {
+export interface type {
   name: string;
   url: string;
 }
