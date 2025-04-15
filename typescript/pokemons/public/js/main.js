@@ -11,7 +11,7 @@ import { helpHttp } from "./helpHttp.js";
 import { pokemonTypes } from "./interface/pokemonTypes.js";
 document.addEventListener("DOMContentLoaded", renderPokemons);
 //constantes
-const API_URL = "https://pokeapi.co/api/v2/pokemon?limit=10";
+const API_URL = "https://pokeapi.co/api/v2/pokemon?limit=100";
 const api = helpHttp();
 const $pokemons = document.getElementById("containercardpokemons");
 const loader = document.getElementById("loader");
